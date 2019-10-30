@@ -7,26 +7,46 @@
 
 module.exports = {
   allUsers: (req, res) => {
-    Users.find().exec((err, users) => {
+    Users.find().populate('levelId').exec((err, users) => {
       if (err) {
         res.send(500, {
           err: err
         });
       }
-      res.send(users);
+
+      const usersList = users.map(user => {
+        return {
+          id: user.id,
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          login: user.login,
+          level: user.levelId.level
+        }
+      })
+      res.send(usersList);
     })
   },
 
   user: (req, res) => {
     Users.findOne({
       id: req.params.id
-    }).exec((err, user) => {
+    }).populate('levelId').exec((err, user) => {
       if (err) {
         res.send(500, {
           err: err
         });
       }
-      res.send(user);
+
+      const data = {
+        id: user.id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        login: user.login,
+        level: user.levelId.level
+      }
+      res.send(data);
     })
   }
 

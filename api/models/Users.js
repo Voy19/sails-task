@@ -10,21 +10,33 @@ module.exports = {
   attributes: {
     name: {
       type: 'string',
+      required: true,
+      allowNull: false
     },
     surname: {
       type: 'string',
+      required: true,
+      allowNull: false
     },
     login: {
       type: 'string',
+      required: true,
+      allowNull: false,
+      unique: true
     },
     email: {
       type: 'string',
+      required: true,
+      allowNull: false,
+      unique: true
     },
     password: {
-      type: 'string'
+      type: 'string',
+      required: true,
+      allowNull: false
     },
     levelId: {
-      type: 'integer'
+      model: 'Levels',
     }
   },
   datastore: 'mysql_connection',

@@ -6,11 +6,14 @@
  */
 
 module.exports = {
-  // attributes: {
-  //   level: {
-  //     type: 'string',
-  //   },
-  // },
-  // datastore: 'mysql_connection',
-
+  attributes: {
+    level: {
+      type: 'string'
+    },
+    users: {
+      collection: 'Users',
+      via: 'levelId'
+    }
+  },
+  datastore: 'mysql_connection',
 };
