@@ -37,7 +37,7 @@ module.exports = {
     },
     levelId: {
       model: 'Levels',
-    }
+    },
   },
   datastore: 'mysql_connection',
 

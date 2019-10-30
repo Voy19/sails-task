@@ -7,7 +7,7 @@
 
 module.exports = {
   allUsers: (req, res) => {
-    Users.find().populate('levelId').exec((err, users) => {
+    Users.find().populate('level').exec((err, users) => {
       if (err) {
         res.send(500, {
           err: err
