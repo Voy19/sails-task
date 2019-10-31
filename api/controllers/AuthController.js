@@ -5,23 +5,23 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+const hashSecretWord = require("../../helpers/crypt").hashPassword;
 const passport = require('passport');
 const jwt = require("jsonwebtoken");
 const secretWord = 'something strange';
-
 
 module.exports = {
    login: (req, res) => {
       passport.authenticate('local', (err, user, info) => {
          if ((err) || (!user)) {
             return res.send({
-               message: info.message,
-            });
+               message: info.message
+            })
          }
          const token = jwt.sign({
             id: user.id,
             iat: Math.floor(Date.now() / 1000) + 600
-         }, secretWord);
+         }, hashSecretWord(secretWord));
          req.login(
             user, {
                session: true

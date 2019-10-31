@@ -11,29 +11,34 @@ module.exports = {
     name: {
       type: 'string',
       required: true,
-      allowNull: false
+      allowNull: false,
+      regex: /^([a-zA-z])(?!\S*?[\(\)\{\}\/\\\[\],. а-яА-Я]).{2,}$/
     },
     surname: {
       type: 'string',
       required: true,
-      allowNull: false
+      allowNull: false,
+      regex: /^([a-zA-z])(?!\S*?[\(\)\{\}\/\\\[\],. а-яА-Я]).{3,}$/
     },
     login: {
       type: 'string',
       required: true,
       allowNull: false,
-      unique: true
+      unique: true,
+      regex: /^([a-zA-z])(?!\S*?[\(\)\{\}\/\\\[\],. а-яА-Я]).{5,}$/
     },
     email: {
       type: 'string',
       required: true,
       allowNull: false,
-      unique: true
+      unique: true,
+      isEmail: true
     },
     password: {
       type: 'string',
       required: true,
-      allowNull: false
+      allowNull: false,
+      minLength: 8
     },
     levelId: {
       model: 'Levels',

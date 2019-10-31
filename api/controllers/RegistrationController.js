@@ -14,6 +14,12 @@ module.exports = {
          res.send("Passwords don't match");
       }
 
+      const reg = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?!\S*?[!@#$^&%*()+=\-\[\]\/\{\}|\:\<\>?,. а-яА-Я]).{6,})\S$/
+
+      if (!req.body.password.match(reg)) {
+         res.send("Password isn't valid")
+      }
+
       const salt = bcrypt.genSaltSync(10);
       const passwordToSave = bcrypt.hashSync(req.body.password, salt);
       const data = {
@@ -21,7 +27,8 @@ module.exports = {
          surname: req.body.surname,
          login: req.body.login,
          password: passwordToSave,
-         email: req.body.email
+         email: req.body.email,
+         levelId: req.body.levelId
       }
       Users.find().where({
          or: [{

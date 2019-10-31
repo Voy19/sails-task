@@ -5,27 +5,40 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+const passport = require('passport');
+
 module.exports = {
   allUsers: (req, res) => {
-    Users.find().populate('level').exec((err, users) => {
+    passport.authenticate('jwt', (err, user, info) => {
       if (err) {
-        res.send(500, {
-          err: err
-        });
+        console.log(err);
+      }
+      if (info !== undefined) {
+        res.send({
+          message: info.message,
+        })
       }
 
-      const usersList = users.map(user => {
-        return {
-          id: user.id,
-          name: user.name,
-          surname: user.surname,
-          email: user.email,
-          login: user.login,
-          level: user.levelId.level
+      Users.find().populate('levelId').exec((err, users) => {
+        if (err) {
+          res.send(500, {
+            err: err
+          });
         }
+
+        const usersList = users.map(user => {
+          return {
+            id: user.id,
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            login: user.login,
+            level: user.levelId.level
+          }
+        })
+        res.send(usersList);
       })
-      res.send(usersList);
-    })
+    })(req, res)
   },
 
   user: (req, res) => {
@@ -46,6 +59,7 @@ module.exports = {
         login: user.login,
         level: user.levelId.level
       }
+
       res.send(data);
     })
   }
