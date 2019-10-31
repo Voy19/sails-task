@@ -40,6 +40,11 @@ module.exports = {
       allowNull: false,
       minLength: 8
     },
+    joinedAt: {
+      type: 'ref',
+      columnType: 'datetime',
+      defaultsTo: new Date()
+    },
     levelId: {
       model: 'Levels',
     },

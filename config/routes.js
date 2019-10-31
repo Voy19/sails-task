@@ -24,6 +24,7 @@ module.exports.routes = {
   },
   'GET /users': 'UsersController.allUsers',
   'GET /users/:id': 'UsersController.user',
+  'GET /vacation/:id': 'VacationController.vacationDays',
   'POST /login': 'AuthController.login',
   '/logout': 'AuthController.logout',
   'POST /registration': 'RegistrationController.registration',

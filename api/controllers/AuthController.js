@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 const secretWord = 'something strange';
 
 module.exports = {
-   login: (req, res) => {
+   login: async (req, res) => {
       passport.authenticate('local', (err, user, info) => {
          if ((err) || (!user)) {
             return res.send({
