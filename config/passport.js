@@ -52,7 +52,9 @@ passport.use(new LocalStrategy({
          })
          .catch(err => {
             if (err) {
-               return done(err);
+               return done(err, false, {
+                  message: err
+               });
             }
          });
    }));

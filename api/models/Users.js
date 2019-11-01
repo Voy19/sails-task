@@ -48,6 +48,10 @@ module.exports = {
     levelId: {
       model: 'Levels',
     },
+    vacation: {
+      collection: 'Vacation',
+      via: 'userId'
+    }
   },
   datastore: 'mysql_connection',
 

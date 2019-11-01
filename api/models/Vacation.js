@@ -9,13 +9,18 @@ module.exports = {
 
   attributes: {
 
+    userId: {
+      model: "Users"
+    },
     fromDate: {
       type: 'ref',
       columnType: 'datetime',
     },
     toDate: {
       type: 'ref',
-      columnType: "datetime"
+      columnType: "datetime",
+      required: true,
+      allowNull: false,
     }
   },
   datastore: 'mysql_connection',

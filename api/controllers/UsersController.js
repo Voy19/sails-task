@@ -19,7 +19,7 @@ module.exports = {
         })
       }
 
-      Users.find().populate('levelId').exec((err, users) => {
+      Users.find().populate('levelId').populate('vacation').exec((err, users) => {
         if (err) {
           res.send(500, {
             err: err
@@ -33,7 +33,8 @@ module.exports = {
             surname: user.surname,
             email: user.email,
             login: user.login,
-            level: user.levelId.level
+            level: user.levelId.level,
+            vacation: user.vacation
           }
         })
         res.send(usersList);
@@ -44,7 +45,7 @@ module.exports = {
   user: (req, res) => {
     Users.findOne({
       id: req.params.id
-    }).populate('levelId').exec((err, user) => {
+    }).populate('levelId').populate('vacation').exec((err, user) => {
       if (err) {
         res.send(500, {
           err: err
@@ -57,7 +58,8 @@ module.exports = {
         surname: user.surname,
         email: user.email,
         login: user.login,
-        level: user.levelId.level
+        level: user.levelId.level,
+        vacation: user.vacation
       }
 
       res.send(data);
