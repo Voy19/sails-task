@@ -77,7 +77,7 @@ module.exports.models = {
     },
     updatedAt: {
       type: 'ref',
-      columnType: 'datetime',
+      columnType: 'timestamp',
       autoUpdatedAt: true,
     },
     id: {

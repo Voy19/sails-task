@@ -30,10 +30,10 @@ module.exports = {
    createVacation: (req, res) => {
       passport.authenticate('jwt', async (err, user, info) => {
          if (err) {
-            res.send(err)
+            return res.send(err)
          }
          if (info !== undefined) {
-            res.send({
+            return res.send({
                message: info.message,
             })
          }

@@ -11,7 +11,7 @@ module.exports = {
   allUsers: (req, res) => {
     passport.authenticate('jwt', (err, user, info) => {
       if (err) {
-        console.log(err);
+        throw new Error(err);
       }
       if (info !== undefined) {
         res.send({

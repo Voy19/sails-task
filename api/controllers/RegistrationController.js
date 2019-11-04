@@ -9,9 +9,9 @@ const bcrypt = require("bcryptjs");
 
 module.exports = {
    registration: (req, res) => {
-      if (req.body === null) return res.status(400).end();
+      if (req.body === null) return res.status(400).send("Data is empty");
       if (req.body.password !== req.body.repeatPassword) {
-         res.send("Passwords don't match");
+         res.status(400).send("Passwords don't match");
       }
 
       const reg = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?!\S*?[!@#$^&%*()+=\-\[\]\/\{\}|\:\<\>?,. а-яА-Я]).{6,})\S$/
