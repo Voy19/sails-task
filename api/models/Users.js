@@ -51,6 +51,9 @@ module.exports = {
     vacation: {
       collection: 'Vacation',
       via: 'userId'
+    },
+    roleId: {
+      model: 'Roles',
     }
   },
   datastore: 'mysql_connection',

@@ -27,7 +27,7 @@ passport.use(new LocalStrategy({
             where: {
                login: login
             }
-         }).populate('levelId')
+         }).populate('levelId').populate('vacation').populate('roleId')
          .then(user => {
             if (!user) {
                return done(null, false, {
@@ -45,7 +45,9 @@ passport.use(new LocalStrategy({
                   login: user.login,
                   name: user.name,
                   surname: user.surname,
-                  level: user.levelId.level
+                  level: user.levelId.level,
+                  vacation: user.vacation,
+                  role: user.roleId
                };
                return done(null, userDetails);
             })
