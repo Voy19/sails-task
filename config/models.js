@@ -53,8 +53,8 @@ module.exports.models = {
    *                                                                          *
    ***************************************************************************/
 
-  // migrate: 'alter',
-  migrate: 'safe',
+  migrate: 'alter',
+  // migrate: 'safe',
 
 
   /***************************************************************************
@@ -77,7 +77,7 @@ module.exports.models = {
     },
     updatedAt: {
       type: 'ref',
-      columnType: 'timestamp',
+      columnType: 'datetime',
       autoUpdatedAt: true,
     },
     id: {

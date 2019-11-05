@@ -28,9 +28,11 @@ module.exports.routes = {
   'GET /users': 'UsersController.allUsers',
   'GET /users/:id': 'UsersController.user',
   'GET /vacation/:id': 'VacationController.vacationDays',
-  'POST /vacation': 'VacationController.createVacation',
+  // 'POST /vacation': 'VacationController.createVacation',
   'POST /assesments': 'AssesmentsController.createAssesment',
-  'PUT /assesments/:assesmentId/reviews/:reviewerId': 'ReviewersController.evaluation'
+  'PUT /assesments/:assesmentId/reviews/:reviewerId': 'ReviewersController.evaluation',
+  'GET /assesments/:userId': 'AssesmentsController.allAssesments',
+  'GET /assesments/:userId/active': 'AssesmentsController.activeAssesment',
 
 
   /***************************************************************************

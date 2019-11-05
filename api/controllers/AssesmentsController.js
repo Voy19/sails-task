@@ -8,6 +8,57 @@
 const passport = require('passport');
 
 module.exports = {
+   allAssesments: (req, res) => {
+      passport.authenticate('jwt', (err, user, info) => {
+         if (err) {
+            throw new Error(err);
+         }
+         if (info !== undefined) {
+            res.send({
+               message: info.message,
+            })
+         }
+
+         Assesments.find({
+            userId: req.params.userId,
+            isFinished: true
+         }).exec((err, assesments) => {
+            if (err) {
+               res.send(500, {
+                  err: err
+               });
+            }
+            res.send(assesments);
+         })
+      })(req, res)
+   },
+
+   activeAssesment: (req, res) => {
+      passport.authenticate('jwt', (err, user, info) => {
+         if (err) {
+            throw new Error(err);
+         }
+         if (info !== undefined) {
+            res.send({
+               message: info.message,
+            })
+         }
+
+         Assesments.findOne({
+            userId: req.params.userId,
+            isFinished: false
+         }).exec((err, assesments) => {
+            if (err) {
+               res.send(500, {
+                  err: err
+               });
+            }
+            res.send(assesments);
+         })
+      })(req, res)
+   },
+
+
    createAssesment: (req, res) => {
       passport.authenticate('jwt', (err, user, info) => {
          if (err) {
@@ -19,30 +70,39 @@ module.exports = {
             })
          }
 
-         const data = {
-            userId: req.body.userId,
-            level: req.body.level,
-            reviewers: ["1", "2"]
-         }
-
-         Assesments.create({
-            userId: req.body.userId,
-            level: req.body.level
-         }).meta({
-            fetch: true
-         }).then((assesment) => {
-            const arr = data.reviewers.map(reviewer => {
-               return {
-                  userId: reviewer,
-                  assesmentId: assesment.id
-               }
-            });
-            Reviewers.createEach(arr).then(() => {
-               res.status(200).send("Assesment created successfully");
+         Users.find().exec((err, users) => {
+            if (err) {
+               res.send(500, {
+                  err: err
+               });
+            }
+            const reviewers = users.map((user) => {
+               return user.id
             })
-         }).catch(err => {
-            res.status(400).send(err)
-         })
+            const data = {
+               userId: req.body.userId,
+               level: req.body.level,
+               reviewers: reviewers
+            }
+            Assesments.create({
+               userId: req.body.userId,
+               level: req.body.level
+            }).meta({
+               fetch: true
+            }).then((assesment) => {
+               const reviewers = data.reviewers.map(reviewer => {
+                  return {
+                     userId: reviewer,
+                     assesmentId: assesment.id
+                  }
+               });
+               Reviewers.createEach(reviewers).then(() => {
+                  res.status(200).send("Assesment created successfully");
+               })
+            }).catch(err => {
+               res.status(400).send(err)
+            })
+         });
       })(req, res)
    },
 };

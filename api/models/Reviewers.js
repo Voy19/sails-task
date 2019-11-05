@@ -10,36 +10,54 @@ module.exports = {
   attributes: {
 
     userId: {
+      autoMigrations: {
+        index: true
+      },
       type: 'number'
     },
     assesmentId: {
       type: 'number'
     },
     "code quality": {
-      type: 'number'
+      type: 'number',
+      min: 1,
+      max: 5
     },
     competence: {
-      type: 'number'
+      type: 'number',
+      min: 1,
+      max: 5
     },
     "Interaction with colleagues": {
-      type: 'number'
+      type: 'number',
+      min: 1,
+      max: 5
     },
     "Quality of task closure": {
-      type: 'number'
+      type: 'number',
+      min: 1,
+      max: 5
     },
     discipline: {
-      type: 'number'
+      type: 'number',
+      min: 1,
+      max: 5
     },
     innovation: {
-      type: 'number'
+      type: 'number',
+      min: 1,
+      max: 5
     },
     proactivity: {
-      type: 'number'
+      type: 'number',
+      min: 1,
+      max: 5
     },
     "fuck up": {
-      type: 'number'
+      type: 'number',
+      min: 1,
+      max: 5
     }
-
   },
   datastore: 'mysql_connection',
 

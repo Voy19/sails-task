@@ -10,13 +10,20 @@ module.exports = {
   attributes: {
 
     userId: {
-      type: 'number'
+      autoMigrations: {
+        index: true
+      },
+      type: 'ref',
+      columnType: 'integer'
     },
     level: {
       type: 'string'
+    },
+    isFinished: {
+      type: 'boolean',
+      defaultsTo: false
     }
 
   },
   datastore: 'mysql_connection',
-
 };

@@ -46,6 +46,9 @@ module.exports = {
       defaultsTo: new Date()
     },
     levelId: {
+      autoMigrations: {
+        index: true
+      },
       model: 'Levels',
     },
     vacation: {
@@ -53,6 +56,9 @@ module.exports = {
       via: 'userId'
     },
     roleId: {
+      autoMigrations: {
+        index: true
+      },
       model: 'Roles',
     }
   },
