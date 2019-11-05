@@ -24,6 +24,8 @@ module.exports = {
             } else {
                res.send("No user found.");
             }
+         }).catch((err) => {
+            res.status(400).send(err.details);
          });
    },
 
@@ -52,12 +54,12 @@ module.exports = {
                   type: req.body.type
                }
 
-               Vacation.create(vacation)
+               Worklog.create(vacation)
                   .then(() => {
-                     res.status(200).send("Vacation created successfully")
+                     res.status(200).send("Vacation created successfully");
                   })
                   .catch(err => {
-                     res.status(400).send(err)
+                     res.status(400).send(err.details);
                   })
             } else {
                res.status(400).send("Invalid")

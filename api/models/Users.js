@@ -52,12 +52,12 @@ module.exports = {
       model: 'Levels',
     },
     vacation: {
-      collection: 'Vacation',
+      collection: 'Worklog',
       via: 'userId'
     },
     roleId: {
       autoMigrations: {
-        index: true
+        index: true,
       },
       model: 'Roles',
     }

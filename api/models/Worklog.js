@@ -10,11 +10,10 @@ module.exports = {
   attributes: {
 
     userId: {
-      type: 'ref',
-      columnType: 'integer',
       autoMigrations: {
         index: true
       },
+      model: "Users"
     },
     type: {
       type: 'string',
