@@ -30,6 +30,7 @@ module.exports = {
                if (err) {
                   res.send(err);
                }
+               req.session.role = user.role.role
                return res.send({
                   token,
                   user

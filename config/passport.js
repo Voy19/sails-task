@@ -74,7 +74,7 @@ passport.use(new JwtStrategy({
             where: {
                id: jwtPayload.id
             }
-         }).populate('levelId')
+         }).populate('levelId').populate('vacation').populate('roleId')
          .then(user => {
             return done(null, user);
          })

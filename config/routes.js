@@ -30,7 +30,7 @@ module.exports.routes = {
   'GET /vacation/:id': 'VacationController.vacationDays',
   'POST /vacation': 'VacationController.createVacation',
   'POST /assesments': 'AssesmentsController.createAssesment',
-  'PUT /assesments/:assesmentId/reviews/:reviewsId': 'AssesmentsController.evaluation'
+  'PUT /assesments/:assesmentId/reviews/:reviewerId': 'ReviewersController.evaluation'
 
 
   /***************************************************************************
