@@ -43,9 +43,9 @@ module.exports.http = {
       'router',
       'www',
       'favicon',
+      'trustProxy'
     ],
 
-    trustProxy: true,
 
 
     /***************************************************************************
