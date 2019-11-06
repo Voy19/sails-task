@@ -16,8 +16,12 @@ module.exports = {
       type: 'ref',
       columnType: 'integer'
     },
-    level: {
-      type: 'string'
+    levelId: {
+      autoMigrations: {
+        index: true
+      },
+      type: 'ref',
+      columnType: 'integer'
     },
     isFinished: {
       type: 'boolean',
