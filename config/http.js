@@ -31,6 +31,7 @@ module.exports.http = {
 
     passportInit: require('passport').initialize(),
     passportSession: require('passport').session(),
+    trustProxy: true,
 
     order: [
       'cookieParser',
@@ -46,7 +47,6 @@ module.exports.http = {
       'trustProxy'
     ],
 
-    trustProxy: true,
 
 
 
