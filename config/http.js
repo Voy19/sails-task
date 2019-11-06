@@ -19,6 +19,7 @@ module.exports.http = {
    * https://sailsjs.com/documentation/concepts/middleware                     *
    *                                                                           *
    ****************************************************************************/
+  trustProxy: true,
 
   middleware: {
 
@@ -31,7 +32,6 @@ module.exports.http = {
 
     passportInit: require('passport').initialize(),
     passportSession: require('passport').session(),
-    trustProxy: true,
 
     order: [
       'cookieParser',
@@ -44,7 +44,6 @@ module.exports.http = {
       'router',
       'www',
       'favicon',
-      'trustProxy'
     ],
 
 
