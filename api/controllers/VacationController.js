@@ -39,28 +39,54 @@ module.exports = {
          }
          const joinedAt = new Date(user.joinedAt);
          const total = await sails.helpers.calculateVacation(base, date, fullYears, joinedAt);
+
          if (total !== null) {
-            const result = differenceInBusinessDays(
-               new Date(req.body.toDate),
-               new Date(req.body.fromDate)
-            );
-            if (result <= total && result > 0) {
-               const vacation = {
-                  userId: user.id,
-                  fromDate: req.body.fromDate,
-                  toDate: req.body.toDate
+            Vacation.find({
+               userId: user.id,
+               fromDate: {
+                  ">": new Date(`${new Date().getFullYear()}-01-01`)
+               }
+            }).exec((err, vacations) => {
+               if (err) {
+                  res.send(500, {
+                     err: err
+                  });
                }
 
-               Vacation.create(vacation)
-                  .then(() => {
-                     res.status(200).send("Vacation created successfully")
+               let availableDays = total;
+
+               if (vacations.length) {
+                  vacations.map(vacation => {
+                     availableDays -= differenceInBusinessDays(
+                        new Date(vacation.toDate),
+                        new Date(vacation.fromDate)
+                     );
                   })
-                  .catch(err => {
-                     res.status(400).send(err)
-                  })
-            } else {
-               res.status(400).send("Invalid")
-            }
+               }
+
+               const result = differenceInBusinessDays(
+                  new Date(req.body.toDate),
+                  new Date(req.body.fromDate)
+               );
+               if (result <= availableDays && result > 0) {
+                  const vacation = {
+                     userId: user.id,
+                     fromDate: req.body.fromDate,
+                     toDate: req.body.toDate
+                  }
+
+                  Vacation.create(vacation)
+                     .then(() => {
+                        res.status(200).send("Vacation created successfully")
+                     })
+                     .catch(err => {
+                        res.status(400).send(err)
+                     })
+               } else {
+                  res.status(400).send("Invalid")
+               }
+
+            })
          } else {
             res.status(422).send("Error during vacation calculation");
          }

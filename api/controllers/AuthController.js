@@ -13,9 +13,12 @@ const secretWord = 'something strange';
 module.exports = {
    login: async (req, res) => {
       passport.authenticate('local', (err, user, info) => {
-         if ((err) || (!user)) {
+         if (err) {
+            return res.send(err)
+         }
+         if (info !== undefined) {
             return res.send({
-               message: info.message
+               message: info.message,
             })
          }
          const token = jwt.sign({

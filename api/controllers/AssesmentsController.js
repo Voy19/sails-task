@@ -81,12 +81,12 @@ module.exports = {
             })
             const data = {
                userId: req.body.userId,
-               level: req.body.level,
+               levelId: req.body.levelId,
                reviewers: reviewers
             }
             Assesments.create({
                userId: req.body.userId,
-               level: req.body.level
+               levelId: req.body.levelId
             }).meta({
                fetch: true
             }).then((assesment) => {
