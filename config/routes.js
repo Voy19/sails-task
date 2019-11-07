@@ -33,6 +33,7 @@ module.exports.routes = {
   'PUT /assesments/:assesmentId/reviews/:reviewerId': 'ReviewersController.evaluation',
   'GET /assesments/:userId': 'AssesmentsController.allAssesments',
   'GET /assesments/:userId/active': 'AssesmentsController.activeAssesment',
+  'GET /cabinet': 'CabinetController.cabinet',
 
 
   /***************************************************************************
