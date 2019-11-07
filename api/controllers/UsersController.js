@@ -35,7 +35,7 @@ module.exports = {
             login: user.login,
             level: user.levelId.level,
             vacation: user.vacation,
-            role: user.role
+            role: user.roleId.role
           }
         })
         res.send(usersList);
@@ -61,7 +61,7 @@ module.exports = {
         login: user.login,
         level: user.levelId.level,
         vacation: user.vacation,
-        role: user.role
+        role: user.roleId.role
       }
 
       res.send(data);

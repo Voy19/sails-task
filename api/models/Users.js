@@ -60,7 +60,7 @@ module.exports = {
         index: true,
       },
       model: 'Roles',
-    }
+    },
   },
   datastore: 'mysql_connection',
 

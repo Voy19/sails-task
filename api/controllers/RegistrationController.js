@@ -28,7 +28,8 @@ module.exports = {
          login: req.body.login,
          password: passwordToSave,
          email: req.body.email,
-         levelId: req.body.levelId
+         levelId: 1,
+         roleId: 1
       }
       Users.find().where({
          or: [{
