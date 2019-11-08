@@ -18,17 +18,28 @@ module.exports = {
                message: info.message,
             })
          }
+         if (user.id !== +req.params.userId) {
+            return res.status(400).send("You don't have access to this page");
+         }
 
          Assesments.find({
             userId: req.params.userId,
             isFinished: true
-         }).exec((err, assesments) => {
+         }).populate('levelId').populate('userId').exec((err, assesments) => {
             if (err) {
                res.send(500, {
                   err: err
                });
             }
-            res.send(assesments);
+            const data = assesments.map(assesment => {
+               return {
+                  id: assesment.id,
+                  createdAt: assesment.createdAt,
+                  level: assesment.levelId.level
+               }
+            })
+
+            res.send(data);
          })
       })(req, res)
    },
@@ -53,7 +64,13 @@ module.exports = {
                   err: err.message
                });
             }
-            res.send(assesment);
+            const data = {
+               id: assesment.id,
+               createdAt: assesment.createdAt,
+               level: assesment.levelId.level
+            }
+
+            res.send(data);
          })
       })(req, res)
    },
