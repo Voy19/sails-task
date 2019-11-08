@@ -8,13 +8,13 @@
 const passport = require('passport');
 
 module.exports = {
-   allAssesments: (req, res) => {
+   allAssessments: (req, res) => {
       passport.authenticate('jwt', (err, user, info) => {
          if (err) {
             throw new Error(err);
          }
          if (info !== undefined) {
-            res.send({
+            res.status(400).send({
                message: info.message,
             })
          }
@@ -22,52 +22,51 @@ module.exports = {
             return res.status(400).send("You don't have access to this page");
          }
 
-         Assesments.find({
+         Assessments.find({
             userId: req.params.userId,
             isFinished: true
-         }).populate('levelId').populate('userId').exec((err, assesments) => {
+         }).populate('levelId').populate('userId').exec((err, assessments) => {
             if (err) {
                res.send(500, {
                   err: err
                });
             }
-            const data = assesments.map(assesment => {
+            const data = assessments.map(assessment => {
                return {
-                  id: assesment.id,
-                  createdAt: assesment.createdAt,
-                  level: assesment.levelId.level
+                  id: assessment.id,
+                  createdAt: assessment.createdAt,
+                  level: assessment.levelId.level
                }
             })
-
             res.send(data);
          })
       })(req, res)
    },
 
-   activeAssesment: (req, res) => {
+   activeAssessment: (req, res) => {
       passport.authenticate('jwt', (err, user, info) => {
          if (err) {
             throw new Error(err);
          }
          if (info !== undefined) {
-            res.send({
+            res.status(400).send({
                message: info.message,
             })
          }
 
-         Assesments.findOne({
+         Assessments.findOne({
             userId: req.params.userId,
             isFinished: false
-         }).populate('levelId').populate('userId').exec((err, assesment) => {
+         }).populate('levelId').populate('userId').exec((err, assessment) => {
             if (err) {
                res.send(500, {
                   err: err.message
                });
             }
             const data = {
-               id: assesment.id,
-               createdAt: assesment.createdAt,
-               level: assesment.levelId.level
+               id: assessment.id,
+               createdAt: assessment.createdAt,
+               level: assessment.levelId.level
             }
 
             res.send(data);
@@ -75,8 +74,7 @@ module.exports = {
       })(req, res)
    },
 
-
-   createAssesment: (req, res) => {
+   createAssessment: (req, res) => {
       Users.find().exec((err, users) => {
          if (err) {
             res.send(500, {
@@ -99,16 +97,16 @@ module.exports = {
                levelId: levelId,
                reviewers: reviewers
             }
-            Assesments.create({
+            Assessments.create({
                userId: req.body.userId,
                levelId: levelId
             }).meta({
                fetch: true
-            }).then((assesment) => {
+            }).then((assessment) => {
                const reviewers = data.reviewers.map(reviewer => {
                   return {
                      userId: reviewer,
-                     assesmentId: assesment.id
+                     assessmentId: assessment.id
                   }
                });
                Reviewers.createEach(reviewers).then(() => {

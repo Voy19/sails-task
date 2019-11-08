@@ -55,8 +55,8 @@ module.exports = {
       collection: 'Worklog',
       via: 'userId'
     },
-    assesments: {
-      collection: "Assesments",
+    assessments: {
+      collection: "Assessments",
       via: 'userId'
     },
     roleId: {

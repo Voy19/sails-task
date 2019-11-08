@@ -15,7 +15,7 @@ module.exports = {
       },
       type: 'number'
     },
-    assesmentId: {
+    assessmentId: {
       type: 'number'
     },
     "code quality": {

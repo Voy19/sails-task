@@ -29,12 +29,12 @@ module.exports.routes = {
   'GET /users/:id': 'UsersController.user',
   'GET /vacation/:id': 'VacationController.vacationDays',
   'POST /vacation': 'VacationController.createVacation',
-  'POST /assesments': 'AssesmentsController.createAssesment',
-  'PUT /assesments/:assesmentId/reviews/:reviewerId': 'ReviewersController.evaluation',
-  'GET /assesments/:userId': 'AssesmentsController.allAssesments',
-  'GET /assesments/:userId/active': 'AssesmentsController.activeAssesment',
+  'POST /assessments': 'AssessmentsController.createAssessment',
+  'PUT /assessments/:assessmentId/reviews/:reviewerId': 'ReviewersController.evaluation',
+  'GET /assessments/:userId': 'AssessmentsController.allAssessments',
+  'GET /assessments/:userId/active': 'AssessmentsController.activeAssessment',
   'GET /cabinet': 'CabinetController.cabinet',
-  'GET /assesments': {
+  'GET /assessments': {
     view: ''
   }
 

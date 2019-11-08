@@ -9,7 +9,6 @@ const passport = require('passport');
 
 module.exports = {
    evaluation: (req, res) => {
-
       passport.authenticate('jwt', (err, user, info) => {
          if (err) {
             return res.send(err);
@@ -37,7 +36,7 @@ module.exports = {
 
          Reviewers.update({
             userId: req.params.reviewerId,
-            assesmentId: req.params.assesmentId
+            assessmentId: req.params.assessmentId
          }, updatedData).exec(function (err) {
             if (err) {
                return res.status(400).send(err);

@@ -14,8 +14,8 @@ module.exports = {
       collection: 'Users',
       via: 'levelId'
     },
-    assesments: {
-      collection: "Assesments",
+    assessments: {
+      collection: "Assessments",
       via: 'levelId'
     }
   },
