@@ -47,46 +47,44 @@ module.exports = {
          Assesments.findOne({
             userId: req.params.userId,
             isFinished: false
-         }).exec((err, assesments) => {
+         }).populate('levelId').populate('userId').exec((err, assesment) => {
             if (err) {
                res.send(500, {
-                  err: err
+                  err: err.message
                });
             }
-            res.send(assesments);
+            res.send(assesment);
          })
       })(req, res)
    },
 
 
    createAssesment: (req, res) => {
-      passport.authenticate('jwt', (err, user, info) => {
+      Users.find().exec((err, users) => {
          if (err) {
-            return res.send(err);
+            res.send(500, {
+               err: err
+            });
          }
-         if (info !== undefined) {
-            return res.send({
-               message: info.message,
-            })
-         }
+         const reviewers = users.map((user) => {
+            return user.id
+         })
 
-         Users.find().exec((err, users) => {
+         Users.findOne({
+            id: req.body.userId
+         }).exec((err, user) => {
             if (err) {
-               res.send(500, {
-                  err: err
-               });
+               res.send('User is not found')
             }
-            const reviewers = users.map((user) => {
-               return user.id
-            })
+            const levelId = user.levelId
             const data = {
                userId: req.body.userId,
-               levelId: req.body.levelId,
+               levelId: levelId,
                reviewers: reviewers
             }
             Assesments.create({
                userId: req.body.userId,
-               levelId: req.body.levelId
+               levelId: levelId
             }).meta({
                fetch: true
             }).then((assesment) => {
@@ -102,7 +100,7 @@ module.exports = {
             }).catch(err => {
                res.status(400).send(err)
             })
-         });
-      })(req, res)
+         })
+      });
    },
 };

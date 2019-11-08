@@ -13,6 +13,10 @@ module.exports = {
     users: {
       collection: 'Users',
       via: 'levelId'
+    },
+    assesments: {
+      collection: "Assesments",
+      via: 'levelId'
     }
   },
   datastore: 'mysql_connection',

@@ -11,17 +11,15 @@ module.exports = {
 
     userId: {
       autoMigrations: {
-        index: true
+        index: true,
       },
-      type: 'ref',
-      columnType: 'integer'
+      model: 'Users',
     },
     levelId: {
       autoMigrations: {
         index: true
       },
-      type: 'ref',
-      columnType: 'integer'
+      model: "Levels"
     },
     isFinished: {
       type: 'boolean',

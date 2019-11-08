@@ -55,6 +55,10 @@ module.exports = {
       collection: 'Worklog',
       via: 'userId'
     },
+    assesments: {
+      collection: "Assesments",
+      via: 'userId'
+    },
     roleId: {
       autoMigrations: {
         index: true,
