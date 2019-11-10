@@ -17,7 +17,7 @@ module.exports = {
       const reg = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?!\S*?[!@#$^&%*()+=\-\[\]\/\{\}|\:\<\>?,. а-яА-Я]).{6,})\S$/
 
       if (!req.body.password.match(reg)) {
-         res.send("Password isn't valid")
+         res.status(400).send("Password isn't valid")
       }
 
       const salt = bcrypt.genSaltSync(10);

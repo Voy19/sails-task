@@ -53,6 +53,9 @@ module.exports = {
                message: info.message,
             })
          }
+         if (user.id !== +req.params.userId) {
+            return res.status(400).send("You don't have access to this page");
+         }
 
          Assessments.findOne({
             userId: req.params.userId,
@@ -89,7 +92,7 @@ module.exports = {
             id: req.body.userId
          }).exec((err, user) => {
             if (err) {
-               res.send('User is not found')
+               res.status(400).send('User is not found')
             }
             const levelId = user.levelId
             const data = {

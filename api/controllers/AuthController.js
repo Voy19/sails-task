@@ -14,10 +14,10 @@ module.exports = {
    login: (req, res) => {
       passport.authenticate('local', (err, user, info) => {
          if (err) {
-            return res.send(err)
+            return res.status(400).send(err)
          }
          if (info !== undefined) {
-            return res.send({
+            return res.status(400).send({
                message: info.message,
             })
          }
@@ -31,9 +31,8 @@ module.exports = {
             },
             err => {
                if (err) {
-                  res.send(err);
+                  res.status(400).send(err);
                }
-               // req.session.role = user.role.role
                return res.send({
                   token,
                });

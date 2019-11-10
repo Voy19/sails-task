@@ -11,10 +11,10 @@ module.exports = {
    evaluation: (req, res) => {
       passport.authenticate('jwt', (err, user, info) => {
          if (err) {
-            return res.send(err);
+            return res.status(400).send(err);
          }
          if (info !== undefined) {
-            return res.send({
+            return res.status(400).send({
                message: info.message,
             })
          }
