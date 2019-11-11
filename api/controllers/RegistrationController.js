@@ -41,7 +41,7 @@ module.exports = {
          ]
       }).then(arr => {
          if (arr.length) {
-            res.status(400).send("Dont unique login or email");
+            res.status(400).send("Login or email is already in use");
          }
          Users.create(data).then(() => {
             res.status(200).send("Registration success");

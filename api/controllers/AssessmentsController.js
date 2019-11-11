@@ -20,6 +20,7 @@ module.exports = {
          }
          if (user.id !== +req.params.userId) {
             return res.status(400).send("You don't have access to this page");
+            // return res.redirect(302, '/login');
          }
 
          Assessments.find({
@@ -84,9 +85,6 @@ module.exports = {
                err: err
             });
          }
-         const reviewers = users.map((user) => {
-            return user.id
-         })
 
          Users.findOne({
             id: req.body.userId
@@ -94,25 +92,24 @@ module.exports = {
             if (err) {
                res.status(400).send('User is not found')
             }
-            const levelId = user.levelId
             const data = {
                userId: req.body.userId,
-               levelId: levelId,
-               reviewers: reviewers
+               levelId: req.body.levelId,
+               reviewers: req.body.reviewers
             }
             Assessments.create({
                userId: req.body.userId,
-               levelId: levelId
+               levelId: req.body.levelId
             }).meta({
                fetch: true
             }).then((assessment) => {
-               const reviewers = data.reviewers.map(reviewer => {
+               const createReviewers = data.reviewers.map(reviewer => {
                   return {
                      userId: reviewer,
                      assessmentId: assessment.id
                   }
                });
-               Reviewers.createEach(reviewers).then(() => {
+               Reviewers.createEach(createReviewers).then(() => {
                   res.status(200).send("Assesment created successfully");
                })
             }).catch(err => {

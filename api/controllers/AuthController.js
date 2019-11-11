@@ -12,6 +12,7 @@ const secretWord = 'something strange';
 
 module.exports = {
    login: (req, res) => {
+      if (!req.login) return res.status(400).send('Empty inputs')
       passport.authenticate('local', (err, user, info) => {
          if (err) {
             return res.status(400).send(err)
