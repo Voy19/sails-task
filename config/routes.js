@@ -35,7 +35,7 @@ module.exports.routes = {
   'GET /assessments/:userId': 'AssessmentsController.allAssessments',
   'GET /assessments/:userId/active': 'AssessmentsController.activeAssessment',
   'GET /cabinet': 'CabinetController.cabinet',
-  'POST /users/:userId/reviews': 'ReviewersController.allReviews'
+  'GET /users/:userId/reviews': 'ReviewersController.allReviews'
 
 
   /***************************************************************************

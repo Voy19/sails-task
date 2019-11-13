@@ -6,6 +6,7 @@
  */
 
 const passport = require('passport');
+const nestedPop = require('nested-pop');
 
 module.exports = {
    evaluation: (req, res) => {
@@ -57,29 +58,38 @@ module.exports = {
             })
          }
 
-         if (user.id !== +req.params.userId) {
-            return res.status(400).send("you don't have access to this");
-         }
-
-         console.log(req.params);
-
+         // if (user.id !== +req.params.userId) {
+         //    return res.status(400).send("you don't have access to this");
+         // }
 
          Reviewers.find({
             userId: req.params.userId
-         }).populate('userId').populate('assessmentId').exec((err, reviwer) => {
-            if (err) {
-               res.send(500, {
-                  err: err
-               });
-            }
-
-            console.log(reviwer);
-
-
-         })
-
-
+         }).populate('userId').populate('assessmentId').then(reviews => {
+            return nestedPop(reviews, {
+               assessmentId: {
+                  as: 'assessments',
+                  populate: [
+                     'levelId', 'userId'
+                  ]
+               }
+            }).then(reviews => {
+               const reviewsList = reviews.map(review => {
+                  return {
+                     id: review.id,
+                     assessmentId: review.assessmentId.id,
+                     createdAt: review.assessmentId.createdAt,
+                     name: review.assessmentId.userId.name,
+                     surname: review.assessmentId.userId.surname,
+                     level: review.assessmentId.levelId.level
+                  }
+               })
+               res.send(reviewsList);
+            }).catch(err => {
+               throw err;
+            });
+         }).catch(err => {
+            throw err;
+         });
       })(req, res)
-   },
-
+   }
 };
