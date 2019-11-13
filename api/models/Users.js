@@ -59,6 +59,10 @@ module.exports = {
       collection: "Assessments",
       via: 'userId'
     },
+    reviewers: {
+      collection: 'Reviewers',
+      via: "userId"
+    },
     roleId: {
       autoMigrations: {
         index: true,

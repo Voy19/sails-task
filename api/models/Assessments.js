@@ -24,6 +24,10 @@ module.exports = {
     isFinished: {
       type: 'boolean',
       defaultsTo: false
+    },
+    reviewers: {
+      collection: 'Reviewers',
+      via: "assessmentId"
     }
 
   },

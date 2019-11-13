@@ -11,12 +11,15 @@ module.exports = {
 
     userId: {
       autoMigrations: {
-        index: true
+        index: true,
       },
-      type: 'number'
+      model: 'Users',
     },
     assessmentId: {
-      type: 'number'
+      autoMigrations: {
+        index: true,
+      },
+      model: 'Assessments',
     },
     "code quality": {
       type: 'number',

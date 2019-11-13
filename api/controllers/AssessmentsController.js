@@ -32,6 +32,7 @@ module.exports = {
                   err: err
                });
             }
+
             const data = assessments.map(assessment => {
                return {
                   id: assessment.id,

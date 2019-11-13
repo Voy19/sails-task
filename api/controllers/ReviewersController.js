@@ -44,6 +44,42 @@ module.exports = {
             res.send('Evaluation success');
          });
       })(req, res)
-   }
+   },
+
+   allReviews: (req, res) => {
+      passport.authenticate('jwt', (err, user, info) => {
+         if (err) {
+            return res.status(400).send(err);
+         }
+         if (info !== undefined) {
+            return res.status(400).send({
+               message: info.message,
+            })
+         }
+
+         if (user.id !== +req.params.userId) {
+            return res.status(400).send("you don't have access to this");
+         }
+
+         console.log(req.params);
+
+
+         Reviewers.find({
+            userId: req.params.userId
+         }).populate('userId').populate('assessmentId').exec((err, reviwer) => {
+            if (err) {
+               res.send(500, {
+                  err: err
+               });
+            }
+
+            console.log(reviwer);
+
+
+         })
+
+
+      })(req, res)
+   },
 
 };
