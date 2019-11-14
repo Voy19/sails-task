@@ -34,8 +34,15 @@ module.exports = {
                if (err) {
                   res.status(400).send(err);
                }
+
+               const data = {
+                  id: user.id,
+                  role: user.role.role
+               }
+
                return res.send({
                   token,
+                  data
                });
             }
          );

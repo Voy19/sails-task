@@ -73,6 +73,9 @@ module.exports = {
                   ]
                }
             }).then(reviews => {
+               console.log(reviews);
+
+
                const reviewsList = reviews.map(review => {
                   return {
                      id: review.id,
