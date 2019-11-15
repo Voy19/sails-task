@@ -73,7 +73,7 @@ module.exports = {
                   ]
                }
             }).then(reviews => {
-               console.log(reviews);
+               // console.log(reviews);
 
 
                const reviewsList = reviews.map(review => {

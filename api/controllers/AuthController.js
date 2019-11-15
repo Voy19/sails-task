@@ -53,6 +53,16 @@ module.exports = {
       res.redirect('/');
    },
 
+   user: (req, res) => {
+      passport.authenticate('jwt', (err, user, info) => {
+         if ((err) || (info !== undefined)) {
+            res.status(404).send(false);
+         } else {
+            res.send(user);
+         }
+      })(req, res)
+   },
+
    validityJwt: (req, res) => {
       passport.authenticate('jwt', (err, user, info) => {
          if ((err) || (info !== undefined)) {

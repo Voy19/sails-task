@@ -26,12 +26,15 @@ module.exports = {
          Assessments.find({
             userId: req.params.userId,
             isFinished: true
-         }).populate('levelId').populate('userId').exec((err, assessments) => {
+         }).populate('levelId').populate('userId').populate('reviewers').exec((err, assessments) => {
             if (err) {
                res.send(500, {
                   err: err
                });
             }
+
+            console.log(assessments);
+
 
             const data = assessments.map(assessment => {
                return {
@@ -102,10 +105,9 @@ module.exports = {
                userId: req.body.userId,
                isFinished: false
             }).exec((err, assessment) => {
-               if(assessment) {
+               if (assessment) {
                   return res.status(400).send('This user is already have active assessment');
-               }
-               else {
+               } else {
                   Assessments.create({
                      userId: req.body.userId,
                      levelId: req.body.levelId
@@ -125,26 +127,26 @@ module.exports = {
                      res.status(400).send(err)
                   })
                }
-               
+
             }).catch(err => {
-                    Assessments.create({
-                        userId: req.body.userId,
-                        levelId: req.body.levelId
-                     }).meta({
-                        fetch: true
-                     }).then((assessment) => {
-                        const createReviewers = data.reviewers.map(reviewer => {
-                           return {
-                              userId: reviewer,
-                              assessmentId: assessment.id
-                           }
-                        });
-                        Reviewers.createEach(createReviewers).then(() => {
-                           res.status(200).send("Assesment created successfully");
-                        })
-                     }).catch(err => {
-                        res.status(400).send(err)
-                     })
+               Assessments.create({
+                  userId: req.body.userId,
+                  levelId: req.body.levelId
+               }).meta({
+                  fetch: true
+               }).then((assessment) => {
+                  const createReviewers = data.reviewers.map(reviewer => {
+                     return {
+                        userId: reviewer,
+                        assessmentId: assessment.id
+                     }
+                  });
+                  Reviewers.createEach(createReviewers).then(() => {
+                     res.status(200).send("Assesment created successfully");
+                  })
+               }).catch(err => {
+                  res.status(400).send(err)
+               })
             })
          })
       });

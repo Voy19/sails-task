@@ -28,7 +28,14 @@ module.exports = {
     reviewers: {
       collection: 'Reviewers',
       via: "assessmentId"
-    }
+    },
+    // bonuses: {
+    //   type: 'number',
+    //   defaultsTo: 0
+    // },
+    // english: {
+    //   type: 
+    // }
 
   },
   datastore: 'mysql_connection',
