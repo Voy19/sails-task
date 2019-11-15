@@ -58,7 +58,7 @@ module.exports = {
     },
     "fuck up": {
       type: 'number',
-      min: 1,
+      min: 0,
       max: 5
     }
   },
