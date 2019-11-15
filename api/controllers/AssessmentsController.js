@@ -33,14 +33,13 @@ module.exports = {
                });
             }
 
-            console.log(assessments);
-
 
             const data = assessments.map(assessment => {
                return {
                   id: assessment.id,
                   createdAt: assessment.createdAt,
-                  level: assessment.levelId.level
+                  level: assessment.levelId.level,
+                  reviewers: assessment.reviewers
                }
             })
             res.send(data);
@@ -65,7 +64,7 @@ module.exports = {
          Assessments.findOne({
             userId: req.params.userId,
             isFinished: false
-         }).populate('levelId').populate('userId').exec((err, assessment) => {
+         }).populate('levelId').populate('userId').populate('reviewers').exec((err, assessment) => {
             if (err) {
                res.send(500, {
                   err: err.message

@@ -22,6 +22,7 @@ module.exports = {
                message: info.message,
             })
          }
+
          const token = jwt.sign({
             id: user.id,
             iat: Math.floor(Date.now() / 1000) + 60 * 60

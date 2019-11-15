@@ -69,13 +69,10 @@ module.exports = {
                assessmentId: {
                   as: 'assessments',
                   populate: [
-                     'levelId', 'userId'
+                     'levelId', 'userId', 'reviewers'
                   ]
                }
             }).then(reviews => {
-               // console.log(reviews);
-
-
                const reviewsList = reviews.map(review => {
                   return {
                      id: review.id,
