@@ -1,0 +1,14 @@
+version: "2"
+services:
+  server:
+    build: .
+    # environment:
+    #   - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "8080"
+    ports:
+      - "1337:1337"
+    command: "node app.js"
+  
