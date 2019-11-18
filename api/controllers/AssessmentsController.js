@@ -150,4 +150,40 @@ module.exports = {
          })
       });
    },
+
+   allActiveAssessments: (req, res) => {
+      passport.authenticate('jwt', (err, user, info) => {
+         if (err) {
+            throw new Error(err);
+         }
+         if (info !== undefined) {
+            res.status(400).send({
+               message: info.message,
+            })
+         }
+
+         Assessments.find({
+            isFinished: false
+         }).populate('levelId').populate('userId').populate('reviewers').exec((err, assessments) => {
+            if (err) {
+               res.send(500, {
+                  err: err
+               });
+            }
+
+            const data = assessments.map(assessment => {
+               return {
+                  id: assessment.id,
+                  createdAt: assessment.createdAt,
+                  level: assessment.levelId.level,
+                  reviewers: assessment.reviewers
+               }
+            })
+            console.log(data);
+
+            res.send(data);
+         })
+
+      })(req, res)
+   }
 };
