@@ -34,7 +34,7 @@ module.exports = {
     //   defaultsTo: 0
     // },
     // english: {
-    //   type: 
+    //   type: ''
     // }
 
   },

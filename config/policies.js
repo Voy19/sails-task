@@ -19,7 +19,8 @@ module.exports.policies = {
 
   // '*': true,
   AssessmentsController: {
-    createAssessment: 'admin'
+    createAssessment: 'admin',
+    closeAssessment: 'admin'
   }
 
 };
