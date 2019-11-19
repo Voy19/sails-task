@@ -7,6 +7,9 @@ services:
     restart: "no"
     volumes:
       - ./node_modules:/node_modules
+      - ./.tmp:/.tmp
     env_file: .env
     ports:
       - "127.0.0.1:${PORT}:1337"
+    container_name: reporter-dev-server
+    command: "pm2-runtime ecosystem.config.js --env development"

@@ -6,4 +6,5 @@ services:
       args: 
         - NODE_ENV=production
     restart: always
-    command: "node app.js"
+    container_name: reporter-server
+    command: "pm2-runtime ecosystem.config.js --env production"
