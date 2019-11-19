@@ -1,14 +1,10 @@
-version: "2"
+version: "3.7"
 services:
   server:
-    build: .
-    # environment:
-    #   - NODE_ENV=production
-    volumes:
-      - ./:/home/node/app
-    expose:
-      - "8080"
-    ports:
-      - "1337:1337"
-    command: "node app.js"
-  
+    build: 
+      context: .
+      args: 
+        - NODE_ENV=production
+    restart: always
+    container_name: reporter-server
+    command: "pm2-runtime ecosystem.config.js --env production"
