@@ -6,7 +6,4 @@ services:
       args: 
         - NODE_ENV=production
     restart: always
-    env_file: .env
-    ports:
-      - "${PORT}:1337"
     command: "node app.js"

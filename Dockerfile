@@ -1,4 +1,4 @@
-FROM node:erbium
+FROM node:12
 
 ARG NODE_ENV
 
