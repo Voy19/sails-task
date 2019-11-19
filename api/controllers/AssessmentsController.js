@@ -6,6 +6,7 @@
  */
 
 const passport = require('passport');
+const nestedPop = require('nested-pop');
 
 module.exports = {
    allAssessments: (req, res) => {
@@ -38,8 +39,11 @@ module.exports = {
                return {
                   id: assessment.id,
                   createdAt: assessment.createdAt,
+                  finishedAt: assessment.finishedAt,
                   level: assessment.levelId.level,
-                  reviewers: assessment.reviewers
+                  reviewers: assessment.reviewers,
+                  english: assessment.english,
+                  bonuses: assessment.bonuses
                }
             })
             res.send(data);
@@ -156,33 +160,58 @@ module.exports = {
 
          Assessments.find({
             isFinished: false
-         }).populate('levelId').populate('userId').populate('reviewers').exec((err, assessments) => {
-            if (err) {
-               res.send(500, {
-                  err: err
-               });
-            }
-
-            const data = assessments.map(assessment => {
-               return {
-                  id: assessment.id,
-                  createdAt: assessment.createdAt,
-                  level: assessment.levelId.level,
-                  name: assessment.userId.name,
-                  surname: assessment.userId.surname,
-                  reviewers: assessment.reviewers
+         }).populate('levelId').populate('userId').populate('reviewers').then(assessments => {
+            return nestedPop(assessments, {
+               reviewers: {
+                  as: 'reviewers',
+                  populate: [
+                     'userId'
+                  ]
                }
-            })
-            res.send(data);
-         })
+            }).then(assessments => {
+               const assessmentsList = assessments.map(assessment => {
+                  const reviewersData = assessment.reviewers.map(reviewer => {
+                     return {
+                        name: reviewer.userId.name,
+                        surname: reviewer.userId.surname,
+                        "Interaction with colleagues": reviewer["Interaction with colleagues"],
+                        "Quality of task closure": reviewer["Quality of task closure"],
+                        "code quality": reviewer["code quality"],
+                        competence: reviewer.competence,
+                        discipline: reviewer.discipline,
+                        "fuck up": reviewer["fuck up"],
+                        innovation: reviewer.innovation,
+                        proactivity: reviewer.proactivity
+                     }
+                  })
+                  return {
+                     id: assessment.id,
+                     createdAt: assessment.createdAt,
+                     level: assessment.levelId.level,
+                     name: assessment.userId.name,
+                     surname: assessment.userId.surname,
+                     reviewers: reviewersData
+                  }
+               })
+               res.send(assessmentsList);
+            }).catch(err => {
+               throw err;
+            });
+         }).catch(err => {
+            throw err;
+         });
       })(req, res)
    },
 
+
+
    closeAssessment: (req, res) => {
+      console.log(new Date());
       Assessments.update({
          id: req.params.assessmentId,
       }, {
-         isFinished: true
+         isFinished: true,
+         finishedAt: new Date()
       }).exec(function (err) {
          if (err) {
             return res.status(400).send(err);

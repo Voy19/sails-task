@@ -25,17 +25,23 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false
     },
+    finishedAt: {
+      type: 'ref',
+      columnType: 'datetime',
+      defaultsTo: null
+    },
     reviewers: {
       collection: 'Reviewers',
       via: "assessmentId"
     },
-    // bonuses: {
-    //   type: 'number',
-    //   defaultsTo: 0
-    // },
-    // english: {
-    //   type: ''
-    // }
+    bonuses: {
+      type: 'number',
+      defaultsTo: 0
+    },
+    english: {
+      type: 'number',
+      defaultsTo: 0
+    }
 
   },
   datastore: 'mysql_connection',
