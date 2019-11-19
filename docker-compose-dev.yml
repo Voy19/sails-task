@@ -4,9 +4,9 @@ services:
     build: 
       context: .
       args: 
-        - NODE_ENV=production
-    restart: always
-    env_file: .env
+        - NODE_ENV=development
+    volumes:
+      - ./node_modules:/node_modules
     ports:
-      - "${PORT}:1337"
+      - "127.0.0.1:${PORT}:1337"
     command: "node app.js"

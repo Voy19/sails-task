@@ -1,16 +1,12 @@
-FROM node:8
+FROM node:erbium
 
-WORKDIR /usr/app
+ARG NODE_ENV
 
 COPY package*.*json ./
 
-RUN npm i --quiet
-# RUN npm install --only=production
+
+RUN if [ ${NODE_ENV} = "production" ] ; then npm i --quiet ; echo ${NODE_ENV} ; fi
 
 COPY . ./
 
-EXPOSE 8080
-
 CMD ["npm", "start"]
-
-
