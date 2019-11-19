@@ -34,6 +34,7 @@ module.exports = {
             email: user.email,
             login: user.login,
             level: user.levelId.level,
+            levelId: user.levelId.id,
             vacation: user.vacation,
             role: user.roleId.role
           }
