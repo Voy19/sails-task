@@ -174,8 +174,8 @@ module.exports = {
                      return {
                         name: reviewer.userId.name,
                         surname: reviewer.userId.surname,
-                        "Interaction with colleagues": reviewer["Interaction with colleagues"],
-                        "Quality of task closure": reviewer["Quality of task closure"],
+                        "IWC": reviewer["Interaction with colleagues"],
+                        "QTC": reviewer["Quality of task closure"],
                         "code quality": reviewer["code quality"],
                         competence: reviewer.competence,
                         discipline: reviewer.discipline,
