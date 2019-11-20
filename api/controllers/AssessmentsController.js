@@ -203,15 +203,53 @@ module.exports = {
       })(req, res)
    },
 
+   allAssessmentsForAdmin: (req, res) => {
+      passport.authenticate('jwt', (err, user, info) => {
+         if (err) {
+            throw new Error(err);
+         }
+         if (info !== undefined) {
+            res.status(400).send({
+               message: info.message,
+            })
+         }
+         // if (user.id !== +req.params.userId) {
+         //    return res.status(400).send("You don't have access to this page");
+         //    // return res.redirect(302, '/login');
+         // }
 
+         Assessments.find().populate('levelId').populate('userId').populate('reviewers').exec((err, assessments) => {
+            if (err) {
+               res.send(500, {
+                  err: err
+               });
+            }
+
+            const data = assessments.map(assessment => {
+               return {
+                  id: assessment.id,
+                  createdAt: assessment.createdAt,
+                  finishedAt: assessment.finishedAt || '-',
+                  level: assessment.levelId.level,
+                  reviewers: assessment.reviewers,
+                  isFinished: assessment.isFinished,
+                  english: assessment.english,
+                  bonuses: assessment.bonuses
+               }
+            })
+            res.send(data);
+         })
+      })(req, res)
+   },
 
    closeAssessment: (req, res) => {
-      console.log(new Date());
       Assessments.update({
          id: req.params.assessmentId,
       }, {
          isFinished: true,
-         finishedAt: new Date()
+         finishedAt: new Date(),
+         english: req.body.english,
+         bonuses: req.body.bonuses
       }).exec(function (err) {
          if (err) {
             return res.status(400).send(err);

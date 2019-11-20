@@ -40,7 +40,9 @@ module.exports = {
     },
     english: {
       type: 'number',
-      defaultsTo: 0
+      defaultsTo: 0,
+      min: 1,
+      max: 5
     }
 
   },
