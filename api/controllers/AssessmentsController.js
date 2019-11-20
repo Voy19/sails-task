@@ -218,27 +218,51 @@ module.exports = {
          //    // return res.redirect(302, '/login');
          // }
 
-         Assessments.find().populate('levelId').populate('userId').populate('reviewers').exec((err, assessments) => {
-            if (err) {
-               res.send(500, {
-                  err: err
-               });
-            }
-
-            const data = assessments.map(assessment => {
-               return {
-                  id: assessment.id,
-                  createdAt: assessment.createdAt,
-                  finishedAt: assessment.finishedAt || '-',
-                  level: assessment.levelId.level,
-                  reviewers: assessment.reviewers,
-                  isFinished: assessment.isFinished,
-                  english: assessment.english,
-                  bonuses: assessment.bonuses
-               }
-            })
-            res.send(data);
-         })
+         Assessments.find({
+            isFinished: true
+         }).populate('levelId').populate('userId').populate('reviewers').then(assessments => {
+            return nestedPop(assessments, {
+               reviewers: {
+                  as: 'reviewers',
+                  populate: [
+                     'userId'
+                  ]
+               },
+            }).then(assessments => {
+               const assessmentsList = assessments.map(assessment => {
+                  const reviewersData = assessment.reviewers.map(reviewer => {
+                     return {
+                        name: reviewer.userId.name,
+                        surname: reviewer.userId.surname,
+                        "Interaction with colleagues": reviewer["Interaction with colleagues"],
+                        "Quality of task closure": reviewer["Quality of task closure"],
+                        "code quality": reviewer["code quality"],
+                        competence: reviewer.competence,
+                        discipline: reviewer.discipline,
+                        "fuck up": reviewer["fuck up"],
+                        innovation: reviewer.innovation,
+                        proactivity: reviewer.proactivity
+                     }
+                  })
+                  return {
+                     id: assessment.id,
+                     createdAt: assessment.createdAt,
+                     finishedAt: assessment.finishedAt,
+                     level: assessment.levelId.level,
+                     name: assessment.userId.name,
+                     surname: assessment.userId.surname,
+                     bonuses: assessment.bonuses,
+                     english: assessment.english,
+                     reviewers: reviewersData
+                  }
+               })
+               res.send(assessmentsList);
+            }).catch(err => {
+               throw err;
+            });
+         }).catch(err => {
+            throw err;
+         });
       })(req, res)
    },
 
