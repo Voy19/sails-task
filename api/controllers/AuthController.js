@@ -69,7 +69,6 @@ module.exports = {
       passport.authenticate('jwt', (err, user, info) => {
          if ((err) || (info !== undefined)) {
             res.status(404).send(false);
-
          } else {
             res.send(true);
          }
