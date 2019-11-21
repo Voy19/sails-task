@@ -36,8 +36,9 @@ module.exports.routes = {
   'GET /assessments/:userId/active': 'AssessmentsController.activeAssessment',
   'GET /cabinet': 'CabinetController.cabinet',
   'GET /users/:userId/reviews': 'ReviewersController.allReviews',
-  'GET /activeAssessments': 'AssessmentsController.allActiveAssessments',
-  'GET /assessmentsAdmin': 'AssessmentsController.allAssessmentsForAdmin',
+  // 'GET /activeAssessments': 'AssessmentsController.allActiveAssessments',
+  // 'GET /assessmentsAdmin': 'AssessmentsController.allAssessmentsForAdmin',
+  'GET /allAssessments': 'AssessmentsController.allAssessmentsForAdmin',
   'PUT /assessment/:assessmentId/close': 'AssessmentsController.closeAssessment',
   'GET /user': 'AuthController.user',
   'GET /validityJwt': 'AuthController.validityJwt'

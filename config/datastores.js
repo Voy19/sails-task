@@ -58,8 +58,7 @@ module.exports.datastores = {
     host: 'remotemysql.com', // can user localhost or mysql connection either
     user: 'RNXQEhPUZ0', // your mysql username
     password: 'dE8eaoVNuv', // your mysql password
-    database: 'RNXQEhPUZ0' // database name
+    database: 'RNXQEhPUZ0', // database name
   },
-
 
 };

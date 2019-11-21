@@ -68,19 +68,15 @@ module.exports = {
          Assessments.findOne({
             userId: req.params.userId,
             isFinished: false
-         }).populate('levelId').populate('userId').populate('reviewers').exec((err, assessment) => {
-            if (err) {
-               res.send(500, {
-                  err: err.message
-               });
-            }
+         }).populate('levelId').populate('userId').populate('reviewers').then((assessment) => {
             const data = {
                id: assessment.id,
                createdAt: assessment.createdAt,
                level: assessment.levelId.level
             }
-
             res.send(data);
+         }).catch(err => {
+            res.status(400).send(err);
          })
       })(req, res)
    },
@@ -123,7 +119,6 @@ module.exports = {
                   res.status(400).send(err)
                })
             }
-
          }).catch(err => {
             Assessments.create({
                userId: req.body.userId,
@@ -147,62 +142,6 @@ module.exports = {
       })
    },
 
-   allActiveAssessments: (req, res) => {
-      passport.authenticate('jwt', (err, user, info) => {
-         if (err) {
-            throw new Error(err);
-         }
-         if (info !== undefined) {
-            res.status(400).send({
-               message: info.message,
-            })
-         }
-
-         Assessments.find({
-            isFinished: false
-         }).populate('levelId').populate('userId').populate('reviewers').then(assessments => {
-            return nestedPop(assessments, {
-               reviewers: {
-                  as: 'reviewers',
-                  populate: [
-                     'userId'
-                  ]
-               }
-            }).then(assessments => {
-               const assessmentsList = assessments.map(assessment => {
-                  const reviewersData = assessment.reviewers.map(reviewer => {
-                     return {
-                        name: reviewer.userId.name,
-                        surname: reviewer.userId.surname,
-                        "IWC": reviewer["Interaction with colleagues"],
-                        "QTC": reviewer["Quality of task closure"],
-                        "code quality": reviewer["code quality"],
-                        competence: reviewer.competence,
-                        discipline: reviewer.discipline,
-                        "fuck up": reviewer["fuck up"],
-                        innovation: reviewer.innovation,
-                        proactivity: reviewer.proactivity
-                     }
-                  })
-                  return {
-                     id: assessment.id,
-                     createdAt: assessment.createdAt,
-                     level: assessment.levelId.level,
-                     name: assessment.userId.name,
-                     surname: assessment.userId.surname,
-                     reviewers: reviewersData
-                  }
-               })
-               res.send(assessmentsList);
-            }).catch(err => {
-               throw err;
-            });
-         }).catch(err => {
-            throw err;
-         });
-      })(req, res)
-   },
-
    allAssessmentsForAdmin: (req, res) => {
       passport.authenticate('jwt', (err, user, info) => {
          if (err) {
@@ -218,17 +157,17 @@ module.exports = {
          //    // return res.redirect(302, '/login');
          // }
 
-         Assessments.find({
-            isFinished: true
-         }).populate('levelId').populate('userId').populate('reviewers').then(assessments => {
-            return nestedPop(assessments, {
-               reviewers: {
-                  as: 'reviewers',
-                  populate: [
-                     'userId'
-                  ]
-               },
-            }).then(assessments => {
+         Assessments.find().populate('levelId').populate('userId').populate('reviewers').then(assessments => {
+               return nestedPop(assessments, {
+                  reviewers: {
+                     as: 'reviewers',
+                     populate: [
+                        'userId'
+                     ]
+                  },
+               })
+            })
+            .then(assessments => {
                const assessmentsList = assessments.map(assessment => {
                   const reviewersData = assessment.reviewers.map(reviewer => {
                      return {
@@ -248,6 +187,7 @@ module.exports = {
                      id: assessment.id,
                      createdAt: assessment.createdAt,
                      finishedAt: assessment.finishedAt,
+                     isFinished: assessment.isFinished,
                      level: assessment.levelId.level,
                      name: assessment.userId.name,
                      surname: assessment.userId.surname,
@@ -260,9 +200,6 @@ module.exports = {
             }).catch(err => {
                throw err;
             });
-         }).catch(err => {
-            throw err;
-         });
       })(req, res)
    },
 
