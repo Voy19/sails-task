@@ -52,8 +52,13 @@ module.exports = {
    },
 
    logout: (req, res) => {
+      console.log("req", req);
+
       req.logout();
-      res.redirect('/login');
+
+      console.log("logout", req);
+
+      // res.redirect('/login');
    },
 
    user: (req, res) => {
