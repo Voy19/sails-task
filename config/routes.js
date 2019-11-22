@@ -23,7 +23,7 @@ module.exports.routes = {
     view: 'pages/homepage'
   },
   'POST /login': 'AuthController.login',
-  '/logout': 'AuthController.logout',
+  'GET /logout': 'AuthController.logout',
   'POST /registration': 'RegistrationController.registration',
   'GET /users': 'UsersController.allUsers',
   'GET /users/:id': 'UsersController.user',
