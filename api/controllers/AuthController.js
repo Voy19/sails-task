@@ -26,7 +26,6 @@ module.exports = {
          const token = jwt.sign({
             id: user.id,
             iat: Math.floor(Date.now() / 1000) + 60 * 60
-            // iat: Math.floor(Date.now() / 1000) + 30
          }, hashSecretWord(secretWord));
          req.login(
             user, {
@@ -52,13 +51,8 @@ module.exports = {
    },
 
    logout: (req, res) => {
-      console.log("req", req);
-
       req.logout();
-
-      console.log("logout", req);
-
-      // res.redirect('/login');
+      res.status(200).send();
    },
 
    user: (req, res) => {

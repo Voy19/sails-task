@@ -74,16 +74,24 @@ module.exports = {
                }
             }).then(reviews => {
                const reviewsList = reviews.map(review => {
-                  return {
-                     id: review.id,
-                     assessmentId: review.assessmentId.id,
-                     createdAt: review.assessmentId.createdAt,
-                     name: review.assessmentId.userId.name,
-                     surname: review.assessmentId.userId.surname,
-                     level: review.assessmentId.levelId.level
+                  if (!review.assessmentId.isFinished) {
+                     return {
+                        id: review.id,
+                        assessmentId: review.assessmentId.id,
+                        createdAt: review.assessmentId.createdAt,
+                        name: review.assessmentId.userId.name,
+                        surname: review.assessmentId.userId.surname,
+                        level: review.assessmentId.levelId.level
+                     }
+                  }
+               });
+
+               const reviewsFilter = reviewsList.filter(review => {
+                  if (review) {
+                     return review;
                   }
                })
-               res.send(reviewsList);
+               res.send(reviewsFilter);
             }).catch(err => {
                throw err;
             });
