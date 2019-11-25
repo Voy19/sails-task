@@ -35,15 +35,26 @@ module.exports = {
             "fuck up": req.body["fuck up"]
          };
 
-         Reviewers.update({
+         Reviewers.findOne({
             userId: req.params.reviewerId,
             assessmentId: req.params.assessmentId
-         }, updatedData).exec(function (err) {
-            if (err) {
-               return res.status(400).send(err);
+         }).populate('assessmentId').then(review => {
+            if (Object.keys(review).length && !review.assessmentId.isFinished) {
+               Reviewers.update({
+                  userId: req.params.reviewerId,
+                  assessmentId: req.params.assessmentId
+               }, updatedData).exec(function (err) {
+                  if (err) {
+                     return res.status(400).send(err);
+                  }
+                  res.send('Evaluation success');
+               });
+            } else {
+               res.status(400).send("You can't rating this assessment")
             }
-            res.send('Evaluation success');
-         });
+         }).catch(err => {
+            res.send(err);
+         })
       })(req, res)
    },
 

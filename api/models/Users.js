@@ -59,7 +59,7 @@ module.exports = {
       collection: "Assessments",
       via: 'userId'
     },
-    reviewers: {
+    reviews: {
       collection: 'Reviewers',
       via: "userId"
     },
