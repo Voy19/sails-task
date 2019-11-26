@@ -82,63 +82,34 @@ module.exports = {
    },
 
    createAssessment: (req, res) => {
-      Users.findOne({
-         id: req.body.userId
-      }).exec((err, user) => {
-         if (err) {
-            res.status(400).send('User is not found')
-         }
-         const data = {
-            userId: req.body.userId,
-            levelId: req.body.levelId,
-            reviewers: req.body.reviewers
-         }
-         Assessments.findOne({
-            userId: req.body.userId,
-            isFinished: false
-         }).exec((err, assessment) => {
-            if (assessment) {
-               return res.status(400).send('This user is already have active assessment');
-            } else {
-               Assessments.create({
-                  userId: req.body.userId,
-                  levelId: req.body.levelId
-               }).meta({
-                  fetch: true
-               }).then((assessment) => {
-                  const createReviewers = data.reviewers.map(reviewer => {
-                     return {
-                        userId: reviewer,
-                        assessmentId: assessment.id
-                     }
-                  });
-                  Reviewers.createEach(createReviewers).then(() => {
-                     res.status(200).send("Assesment created successfully");
-                  })
-               }).catch(err => {
-                  res.status(400).send(err)
-               })
-            }
-         }).catch(err => {
-            Assessments.create({
-               userId: req.body.userId,
-               levelId: req.body.levelId
-            }).meta({
-               fetch: true
-            }).then((assessment) => {
-               const createReviewers = data.reviewers.map(reviewer => {
-                  return {
-                     userId: reviewer,
-                     assessmentId: assessment.id
-                  }
-               });
-               Reviewers.createEach(createReviewers).then(() => {
-                  res.status(200).send("Assesment created successfully");
-               })
+      const data = {
+         userId: req.body.userId,
+         levelId: req.body.levelId,
+         reviewers: req.body.reviewers
+      }
+      Assessments.findOrCreate({
+         userId: req.body.userId,
+         isFinished: false
+      }, {
+         userId: req.body.userId,
+         levelId: req.body.levelId
+      }).exec((err, assessment, wasCreated) => {
+         if (err) return res.send(err);
+         if (wasCreated) {
+            const createReviewers = data.reviewers.map(reviewer => {
+               return {
+                  userId: reviewer,
+                  assessmentId: assessment.id
+               }
+            });
+            Reviewers.createEach(createReviewers).then(() => {
+               res.status(200).send("Assesment created successfully");
             }).catch(err => {
-               res.status(400).send(err)
+               res.send(err);
             })
-         })
+         } else {
+            return res.send('This user is already have active assessment');
+         }
       })
    },
 

@@ -38,6 +38,8 @@ passport.use(new LocalStrategy({
                if (!res) return done(null, false, {
                   message: 'Invalid password'
                });
+               console.log(user);
+
 
                const userDetails = {
                   id: user.id,
@@ -46,8 +48,9 @@ passport.use(new LocalStrategy({
                   name: user.name,
                   surname: user.surname,
                   level: user.levelId.level,
+                  levelId: user.levelId.id,
                   vacation: user.vacation,
-                  role: user.roleId
+                  role: user.roleId,
                };
                return done(null, userDetails);
             })

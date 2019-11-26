@@ -38,7 +38,15 @@ module.exports = {
 
                const data = {
                   id: user.id,
-                  role: user.role.role
+                  name: user.name,
+                  surname: user.surname,
+                  email: user.email,
+                  login: user.login,
+                  level: user.level,
+                  levelId: user.levelId,
+                  vacation: user.vacation,
+                  role: user.role.role,
+                  roleId: user.role.id
                }
 
                return res.send({
@@ -60,7 +68,20 @@ module.exports = {
          if ((err) || (info !== undefined)) {
             res.status(404).send(false);
          } else {
-            res.send(user);
+
+            const data = {
+               id: user.id,
+               name: user.name,
+               surname: user.surname,
+               email: user.email,
+               login: user.login,
+               level: user.levelId.level,
+               levelId: user.levelId.id,
+               vacation: user.vacation,
+               role: user.roleId.role,
+               roleId: user.roleId.id
+            }
+            res.send(data);
          }
       })(req, res)
    },

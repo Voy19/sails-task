@@ -32,12 +32,14 @@ module.exports = {
             discipline: req.body.discipline,
             innovation: req.body.innovation,
             proactivity: req.body.proactivity,
-            "fuck up": req.body["fuck up"]
+            "fuck up": req.body["fuck up"],
+            isPending: false
          };
 
          Reviewers.findOne({
             userId: req.params.reviewerId,
-            assessmentId: req.params.assessmentId
+            assessmentId: req.params.assessmentId,
+            isPending: true
          }).populate('assessmentId').then(review => {
             if (Object.keys(review).length && !review.assessmentId.isFinished) {
                Reviewers.update({
@@ -53,7 +55,7 @@ module.exports = {
                res.status(400).send("You can't rating this assessment")
             }
          }).catch(err => {
-            res.send(err);
+            res.status(404).send("Not Found");
          })
       })(req, res)
    },
@@ -74,7 +76,8 @@ module.exports = {
          // }
 
          Reviewers.find({
-            userId: req.params.userId
+            userId: req.params.userId,
+            isPending: true
          }).populate('userId').populate('assessmentId').then(reviews => {
             return nestedPop(reviews, {
                assessmentId: {
