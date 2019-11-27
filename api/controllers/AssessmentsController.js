@@ -20,7 +20,7 @@ module.exports = {
             })
          }
          if (user.id !== +req.params.userId) {
-            return res.status(400).send("You don't have access to this page");
+            return res.status(401).send("You don't have access to this page");
             // return res.redirect(302, '/login');
          }
 
@@ -62,7 +62,7 @@ module.exports = {
             })
          }
          if (user.id !== +req.params.userId) {
-            return res.status(400).send("You don't have access to this page");
+            return res.status(401).send("You don't have access to this page");
          }
 
          Assessments.findOne({
@@ -76,7 +76,7 @@ module.exports = {
             }
             res.send(data);
          }).catch(err => {
-            res.status(400).send(err);
+            res.send(err);
          })
       })(req, res)
    },

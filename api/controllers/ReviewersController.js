@@ -55,7 +55,7 @@ module.exports = {
                res.status(400).send("You can't rating this assessment")
             }
          }).catch(err => {
-            res.status(404).send("Not Found");
+            res.status(404).send("This assessment isn't found or has already been rated");
          })
       })(req, res)
    },

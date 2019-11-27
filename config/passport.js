@@ -38,8 +38,6 @@ passport.use(new LocalStrategy({
                if (!res) return done(null, false, {
                   message: 'Invalid password'
                });
-               console.log(user);
-
 
                const userDetails = {
                   id: user.id,
