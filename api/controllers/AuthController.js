@@ -60,7 +60,7 @@ module.exports = {
 
    logout: (req, res) => {
       req.logout();
-      res.status(200).send();
+      res.end();
    },
 
    user: (req, res) => {

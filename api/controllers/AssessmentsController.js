@@ -108,7 +108,7 @@ module.exports = {
                res.send(err);
             })
          } else {
-            return res.send('This user is already have active assessment');
+            return res.send('This user is already has an active assessment');
          }
       })
    },
