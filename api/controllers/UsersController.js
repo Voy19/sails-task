@@ -32,11 +32,11 @@ module.exports = {
             name: user.name,
             surname: user.surname,
             email: user.email,
-            login: user.login,
+            // login: user.login,
             level: user.levelId.level,
             levelId: user.levelId.id,
-            vacation: user.vacation,
-            role: user.roleId.role
+            // vacation: user.vacation,
+            // role: user.roleId.role
           }
         })
         res.send(usersList);
@@ -67,6 +67,33 @@ module.exports = {
 
       res.send(data);
     })
-  }
+  },
+
+  changePersonalInfo: (req, res) => {
+    passport.authenticate('jwt', (err, user, info) => {
+      if (err) {
+        throw new Error(err);
+      }
+      if (info !== undefined) {
+        res.send({
+          message: info.message,
+        })
+      }
+
+      Users.update({
+        id: req.params.id
+      }, {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email
+      }).exec((err) => {
+        if (err) {
+           return res.status(400).send(err);
+        }
+        res.send('Changed');
+      })
+     
+    })(req, res)
+  }  
 
 };
